@@ -16,7 +16,12 @@ import ForgotPasswordScreen from "./src/screens/auth/ForgotPasswordScreen";
 // スプラッシュスクリーンを自動で隠さないようにする
 SplashScreen.preventAutoHideAsync();
 
-const Stack = createNativeStackNavigator();
+export type AuthStackParamList = {
+  Login: undefined;
+  ForgotPassword: undefined;
+};
+
+const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
