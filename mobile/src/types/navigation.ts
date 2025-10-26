@@ -1,20 +1,22 @@
-import { NavigatorScreenParams } from "@react-navigation/native";
+export type RootStackParamList = {
+  Onboarding: undefined;
+  Auth: undefined;
+  Main: undefined;
+};
 
-// 認証関連のナビゲーションパラメータ
+export type OnboardingStackParamList = {
+  Intro: undefined;
+  Personalize: undefined;
+  PhotoConfirm: undefined;
+};
+
 export type AuthStackParamList = {
   Login: undefined;
   ForgotPassword: undefined;
 };
 
-// メイン画面のボトムタブパラメータ
 export type MainTabParamList = {
   Camera: undefined;
   Results: undefined;
   Settings: undefined;
-};
-
-// ルートナビゲーションパラメータ
-export type RootStackParamList = {
-  Auth: NavigatorScreenParams<AuthStackParamList>;
-  Main: NavigatorScreenParams<MainTabParamList>;
 };

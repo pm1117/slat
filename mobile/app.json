@@ -7,13 +7,28 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "姿勢分析のために写真を選択します。",
+          "cameraPermission": "姿勢分析のために写真を撮影します。"
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "姿勢分析のために写真を撮影します。",
+        "NSPhotoLibraryUsageDescription": "姿勢分析のために写真を選択します。",
+        "NSPhotoLibraryAddUsageDescription": "撮影した写真を保存します。"
+      },
+      "bundleIdentifier": "com.mikasuzukidev.slat"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +36,15 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.mikasuzukidev.slat"
     },
     "web": {
       "favicon": "./assets/favicon.png"
