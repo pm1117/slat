@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   Image,
   Alert,
   Modal,
@@ -13,15 +12,18 @@ import {
   Linking,
   Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardingStackParamList } from "../../types/navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 type Props = NativeStackScreenProps<OnboardingStackParamList, "PhotoConfirm">;
 
-export default function PhotoConfirmScreen({ navigation }: Props) {
+export default function PhotoConfirmScreen() {
+  const navigation = useNavigation<NavigationProp<OnboardingStackParamList>>();
   const [frontImage, setFrontImage] = useState<string | null>(null);
   const [sideImage, setSideImage] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -221,12 +223,10 @@ export default function PhotoConfirmScreen({ navigation }: Props) {
 
   const handleNext = async () => {
     // Save that onboarding is completed
-    // await AsyncStorage.setItem("@onboarding_completed", "true");
+    await AsyncStorage.setItem("@onboarding_completed", "true");
     // TODO: 画像をアップロードしてAuth画面へ遷移
     // @ts-ignore - navigate to parent navigator
-    // navigation.navigate("Auth");
-    // SignUp画面へ遷移
-    navigation.navigate("SignUp");
+    navigation.navigate("Auth");
   };
 
   const isNextButtonEnabled = frontImage !== null && sideImage !== null;

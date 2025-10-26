@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../types/navigation";
 import {
@@ -34,99 +35,101 @@ export default function LoginScreen({ navigation }: Props) {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <View style={styles.content}>
-        {/* ロゴエリア */}
-        <View style={styles.logoContainer}>
-          <View style={styles.logoIcon}>
-            <MaterialCommunityIcons
-              name="meditation"
-              size={32}
-              color="#FFFFFF"
-            />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <View style={styles.content}>
+          {/* ロゴエリア */}
+          <View style={styles.logoContainer}>
+            <View style={styles.logoIcon}>
+              <MaterialCommunityIcons
+                name="meditation"
+                size={32}
+                color="#FFFFFF"
+              />
+            </View>
+            <Text style={styles.logoText}>SLAT</Text>
           </View>
-          <Text style={styles.logoText}>SLAT</Text>
+
+          {/* フォームエリア */}
+          <View style={styles.formContainer}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your email"
+                placeholderTextColor="#A0AEC0"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Password</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your password"
+                placeholderTextColor="#A0AEC0"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={true}
+              />
+              <TouchableOpacity
+                style={styles.forgotPassword}
+                onPress={() => navigation.navigate("ForgotPassword")}
+              >
+                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.loginButtonText}>Login</Text>
+            </TouchableOpacity>
+
+            <View style={styles.divider}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>Or log in with</Text>
+              <View style={styles.dividerLine} />
+            </View>
+
+            <View style={styles.socialButtons}>
+              <TouchableOpacity
+                style={[styles.socialButton]}
+                onPress={() => handleSocialLogin("apple")}
+              >
+                <AntDesign name="apple" size={24} color="#000000" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.socialButton}
+                onPress={() => handleSocialLogin("google")}
+              >
+                <AntDesign name="google" size={24} color="#000000" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.socialButton}
+                onPress={() => handleSocialLogin("x")}
+              >
+                <FontAwesome6 name="x-twitter" size={24} color="#000000" />
+              </TouchableOpacity>
+            </View>
+
+            {/* 新規登録リンク */}
+            <View style={styles.signUpLinkContainer}>
+              <Text style={styles.signUpLinkText}>
+                アカウントをお持ちでないですか？{" "}
+              </Text>
+              <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+                <Text style={styles.signUpLink}>新規登録</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-
-        {/* フォームエリア */}
-        <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your email"
-              placeholderTextColor="#A0AEC0"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your password"
-              placeholderTextColor="#A0AEC0"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={true}
-            />
-            <TouchableOpacity
-              style={styles.forgotPassword}
-              onPress={() => navigation.navigate("ForgotPassword")}
-            >
-              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-            </TouchableOpacity>
-          </View>
-
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>Login</Text>
-          </TouchableOpacity>
-
-          <View style={styles.divider}>
-            <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>Or log in with</Text>
-            <View style={styles.dividerLine} />
-          </View>
-
-          <View style={styles.socialButtons}>
-            <TouchableOpacity
-              style={[styles.socialButton]}
-              onPress={() => handleSocialLogin("apple")}
-            >
-              <AntDesign name="apple" size={24} color="#000000" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.socialButton}
-              onPress={() => handleSocialLogin("google")}
-            >
-              <AntDesign name="google" size={24} color="#000000" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.socialButton}
-              onPress={() => handleSocialLogin("x")}
-            >
-              <FontAwesome6 name="x-twitter" size={24} color="#000000" />
-            </TouchableOpacity>
-          </View>
-
-          {/* 新規登録リンク */}
-          <View style={styles.signUpLinkContainer}>
-            <Text style={styles.signUpLinkText}>
-              アカウントをお持ちでないですか？{" "}
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-              <Text style={styles.signUpLink}>新規登録</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

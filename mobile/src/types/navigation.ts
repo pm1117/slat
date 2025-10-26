@@ -18,7 +18,13 @@ export type AuthStackParamList = {
 };
 
 export type MainTabParamList = {
-  Camera: undefined;
-  Results: undefined;
-  Settings: undefined;
+  Home: undefined;
+  Analysis: undefined;
+  Exercises: undefined;
+  Profile: undefined;
+};
+
+export type HomeStackParamList = {
+  HomeMain: undefined;
+  AnalysisDetail: undefined;
 };

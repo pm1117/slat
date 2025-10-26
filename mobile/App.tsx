@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   useFonts,
   Manrope_400Regular,
@@ -18,6 +19,7 @@ import SignUpScreen from "./src/screens/auth/SignUpScreen";
 import LoginScreen from "./src/screens/auth/LoginScreen";
 import ForgotPasswordScreen from "./src/screens/auth/ForgotPasswordScreen";
 import CompletionScreen from "./src/screens/auth/CompletionScreen";
+import MainNavigator from "./src/navigation/MainNavigator";
 import {
   AuthStackParamList,
   OnboardingStackParamList,
@@ -29,6 +31,7 @@ SplashScreen.preventAutoHideAsync();
 type AppStackParamList = {
   Onboarding: undefined;
   Auth: undefined;
+  Main: undefined;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -106,15 +109,18 @@ export default function App() {
   );
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName={isFirstLaunch ? "Onboarding" : "Auth"}
-      >
-        <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
-        <Stack.Screen name="Auth" component={AuthNavigator} />
-      </Stack.Navigator>
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName={isFirstLaunch ? "Onboarding" : "Auth"}
+        >
+          <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
+          <Stack.Screen name="Auth" component={AuthNavigator} />
+          <Stack.Screen name="Main" component={MainNavigator} />
+        </Stack.Navigator>
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }

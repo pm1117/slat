@@ -4,10 +4,10 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
   Image,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Ionicons, FontAwesome6 } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardingStackParamList } from "../../types/navigation";

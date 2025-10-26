@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../types/navigation";
@@ -14,9 +9,8 @@ type Props = NativeStackScreenProps<AuthStackParamList, "Completion">;
 
 export default function CompletionScreen({ navigation }: Props) {
   const handleCheckResults = () => {
-    // TODO: メイン画面（分析結果画面）に遷移
-    console.log("Navigate to results");
-    // 将来的には navigation.navigate("Main") などに変更
+    // @ts-ignore - navigate to parent navigator
+    navigation.navigate("Main");
   };
 
   return (

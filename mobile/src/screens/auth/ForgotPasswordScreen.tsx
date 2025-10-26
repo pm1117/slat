@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../types/navigation";
 
@@ -22,48 +23,50 @@ export default function ForgotPasswordScreen({ navigation }: Props) {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <View style={styles.content}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.title}>パスワード再設定</Text>
-          <Text style={styles.description}>
-            登録されているメールアドレスを入力してください。{"\n"}
-            パスワード再設定用のリンクをお送りします。
-          </Text>
-        </View>
-
-        <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>メールアドレス</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="example@email.com"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <View style={styles.content}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.title}>パスワード再設定</Text>
+            <Text style={styles.description}>
+              登録されているメールアドレスを入力してください。{"\n"}
+              パスワード再設定用のリンクをお送りします。
+            </Text>
           </View>
 
-          <TouchableOpacity
-            style={styles.submitButton}
-            onPress={handleResetPassword}
-          >
-            <Text style={styles.submitButtonText}>送信</Text>
-          </TouchableOpacity>
+          <View style={styles.formContainer}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>メールアドレス</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="example@email.com"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
 
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.backButtonText}>ログイン画面に戻る</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={handleResetPassword}
+            >
+              <Text style={styles.submitButtonText}>送信</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Text style={styles.backButtonText}>ログイン画面に戻る</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
