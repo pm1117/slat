@@ -14,7 +14,8 @@
           "photosPermission": "姿勢分析のために写真を選択します。",
           "cameraPermission": "姿勢分析のために写真を撮影します。"
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "splash": {
       "image": "./assets/splash-icon.png",

@@ -11,8 +11,10 @@ export type OnboardingStackParamList = {
 };
 
 export type AuthStackParamList = {
+  SignUp: undefined;
   Login: undefined;
   ForgotPassword: undefined;
+  Completion: undefined;
 };
 
 export type MainTabParamList = {

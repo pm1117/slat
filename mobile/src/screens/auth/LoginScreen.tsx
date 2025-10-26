@@ -114,6 +114,16 @@ export default function LoginScreen({ navigation }: Props) {
               <FontAwesome6 name="x-twitter" size={24} color="#000000" />
             </TouchableOpacity>
           </View>
+
+          {/* 新規登録リンク */}
+          <View style={styles.signUpLinkContainer}>
+            <Text style={styles.signUpLinkText}>
+              アカウントをお持ちでないですか？{" "}
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+              <Text style={styles.signUpLink}>新規登録</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -230,5 +240,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#E2E8F0",
+  },
+  signUpLinkContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 24,
+  },
+  signUpLinkText: {
+    fontSize: 14,
+    fontFamily: "Manrope_400Regular",
+    color: "#718096",
+  },
+  signUpLink: {
+    fontSize: 14,
+    fontFamily: "Manrope_700Bold",
+    color: "#3498DB",
   },
 });

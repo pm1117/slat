@@ -221,10 +221,12 @@ export default function PhotoConfirmScreen({ navigation }: Props) {
 
   const handleNext = async () => {
     // Save that onboarding is completed
-    await AsyncStorage.setItem("@onboarding_completed", "true");
+    // await AsyncStorage.setItem("@onboarding_completed", "true");
     // TODO: 画像をアップロードしてAuth画面へ遷移
     // @ts-ignore - navigate to parent navigator
-    navigation.navigate("Auth");
+    // navigation.navigate("Auth");
+    // SignUp画面へ遷移
+    navigation.navigate("SignUp");
   };
 
   const isNextButtonEnabled = frontImage !== null && sideImage !== null;

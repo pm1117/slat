@@ -14,8 +14,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import IntroScreen from "./src/screens/onboarding/IntroScreen";
 import PersonalizeScreen from "./src/screens/onboarding/PersonalizeScreen";
 import PhotoConfirmScreen from "./src/screens/onboarding/PhotoConfirmScreen";
+import SignUpScreen from "./src/screens/auth/SignUpScreen";
 import LoginScreen from "./src/screens/auth/LoginScreen";
 import ForgotPasswordScreen from "./src/screens/auth/ForgotPasswordScreen";
+import CompletionScreen from "./src/screens/auth/CompletionScreen";
 import {
   AuthStackParamList,
   OnboardingStackParamList,
@@ -54,11 +56,11 @@ export default function App() {
 
   const checkFirstLaunch = async () => {
     try {
-      // const hasCompletedOnboarding = await AsyncStorage.getItem(
-      //   "@onboarding_completed"
-      // );
-      // setIsFirstLaunch(hasCompletedOnboarding === null);
-      setIsFirstLaunch(true);
+      const hasCompletedOnboarding = await AsyncStorage.getItem(
+        "@onboarding_completed"
+      );
+      setIsFirstLaunch(hasCompletedOnboarding === null);
+      // setIsFirstLaunch(true); // Onboardingを表示する場合はこちらのみ追加
     } catch (error) {
       console.error("Error checking first launch:", error);
       setIsFirstLaunch(true);
@@ -84,7 +86,11 @@ export default function App() {
   );
 
   const AuthNavigator = () => (
-    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+    <AuthStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="SignUp"
+    >
+      <AuthStack.Screen name="SignUp" component={SignUpScreen} />
       <AuthStack.Screen name="Login" component={LoginScreen} />
       <AuthStack.Screen
         name="ForgotPassword"
@@ -95,6 +101,7 @@ export default function App() {
           headerBackTitle: "戻る",
         }}
       />
+      <AuthStack.Screen name="Completion" component={CompletionScreen} />
     </AuthStack.Navigator>
   );
 
