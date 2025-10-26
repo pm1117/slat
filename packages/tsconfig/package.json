@@ -1,0 +1,12 @@
+{
+    "name": "@slat/tsconfig",
+    "version": "1.0.0",
+    "description": "Shared TypeScript configuration for SLAT platform",
+    "main": "index.js",
+    "private": true,
+    "files": [
+        "base.json",
+        "nestjs.json",
+        "react-native.json"
+    ]
+}

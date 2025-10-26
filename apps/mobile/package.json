@@ -1,12 +1,16 @@
 {
-  "name": "slat",
+  "name": "@slat/mobile",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
+    "dev": "expo start",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build": "echo 'Mobile build handled by Expo'",
+    "type-check": "tsc --noEmit",
+    "lint": "echo 'Linting not configured yet'"
   },
   "dependencies": {
     "@expo-google-fonts/manrope": "^0.4.2",
