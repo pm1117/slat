@@ -1,0 +1,41 @@
+# CodeRabbit設定ファイル
+# https://docs.coderabbit.ai/guides/configure-coderabbit
+
+# 言語設定
+language: ja-JP
+
+# レビュー設定
+reviews:
+  # PRサマリーを生成
+  summarize: true
+  # コードレビューを実行
+  review: true
+  # 詩的なレビューを無効化（簡潔にする）
+  poem: false
+  # 詳細な説明
+  request_changes_workflow: false
+  # 自動レビュー
+  auto_review:
+    enabled: true
+    drafts: false
+
+# 除外するファイル/ディレクトリ
+exclude:
+  - "**/*.json"
+  - "**/*.lock"
+  - "**/*.md"
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/.expo/**"
+  - "**/ios/**"
+  - "**/android/**"
+  - "**/Pods/**"
+
+# コメントのトーン
+tone_instructions: |
+  - 日本語で回答してください
+  - 丁寧な言葉遣いを使用してください
+  - 技術的な用語は適切に日本語化してください
+  - コードの改善提案は具体的に記載してください
+
