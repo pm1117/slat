@@ -5,13 +5,72 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Image,
+  Dimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "../../types/navigation";
+import Svg, { Path, Line, Text as SvgText } from "react-native-svg";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "AnalysisDetail">;
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const GRAPH_WIDTH = SCREEN_WIDTH - 80; // カードのパディングを考慮
+const GRAPH_HEIGHT = 200;
+const GRAPH_PADDING = 40;
+const GRAPH_INNER_WIDTH = GRAPH_WIDTH - GRAPH_PADDING * 2;
+const GRAPH_INNER_HEIGHT = GRAPH_HEIGHT - GRAPH_PADDING * 2;
+
+// グラフデータ（画像の説明に基づく）
+// X軸: C1, T1, L1, S1 (4ポイント)
+// 青い実線のデータ - 波打つような変動
+const blueLineData = [
+  { x: 0, y: 0.7 }, // C1のあたりでピーク
+  { x: 0.2, y: 0.3 }, // 下降
+  { x: 0.33, y: 0.5 }, // T1の手前で再びピーク
+  { x: 0.4, y: 0.2 }, // T1のあたりで下降
+  { x: 0.66, y: 0.1 }, // L1のあたりで大きく下降
+  { x: 0.85, y: 0.6 }, // 急上昇
+  { x: 1, y: 0.4 }, // S1に向かって緩やかに下降
+];
+
+// 赤い破線のデータ - 青い線とは異なるピークと谷
+const redLineData = [
+  { x: 0, y: 0.6 }, // C1の手前でピーク
+  { x: 0.1, y: 0.3 }, // C1のあたりで下降
+  { x: 0.5, y: 0.7 }, // T1とL1の間でピーク
+  { x: 0.66, y: 0.3 }, // L1のあたりで下降
+  { x: 0.9, y: 0.8 }, // S1のあたりで急上昇
+  { x: 1, y: 0.75 }, // 終点
+];
+
+// データポイントをグラフ座標に変換
+const normalizePoint = (point: { x: number; y: number }) => {
+  const x = GRAPH_PADDING + point.x * GRAPH_INNER_WIDTH;
+  // Y軸は反転（上から下へ）
+  const y = GRAPH_PADDING + GRAPH_INNER_HEIGHT - point.y * GRAPH_INNER_HEIGHT;
+  return { x, y };
+};
+
+// パスを生成
+const createPath = (data: { x: number; y: number }[]) => {
+  const points = data.map(normalizePoint);
+  let path = `M ${points[0].x} ${points[0].y}`;
+  for (let i = 1; i < points.length; i++) {
+    // 滑らかな曲線にするため、前後の点を使ってベジェ曲線を描画
+    const prev = points[i - 1];
+    const curr = points[i];
+    const next = points[i + 1] || curr;
+    const cp1x = prev.x + (curr.x - prev.x) * 0.5;
+    const cp1y = prev.y;
+    const cp2x = curr.x - (next.x - curr.x) * 0.5;
+    const cp2y = curr.y;
+    path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${curr.x} ${curr.y}`;
+  }
+  return path;
+};
 
 export default function AnalysisDetailScreen({ navigation }: Props) {
   const handleViewPlan = () => {
@@ -39,13 +98,21 @@ export default function AnalysisDetailScreen({ navigation }: Props) {
           <View style={styles.imageContainer}>
             <Text style={styles.imageLabel}>分析前</Text>
             <View style={styles.imagePlaceholder}>
-              <MaterialIcons name="person-outline" size={80} color="#A0AEC0" />
+              <Image
+                source={require("../../../assets/human.png")}
+                style={styles.postureImage}
+                resizeMode="contain"
+              />
             </View>
           </View>
           <View style={styles.imageContainer}>
             <Text style={styles.imageLabel}>分析後</Text>
             <View style={styles.imagePlaceholder}>
-              <MaterialIcons name="person" size={80} color="#A0AEC0" />
+              <Image
+                source={require("../../../assets/human.png")}
+                style={styles.postureImage}
+                resizeMode="contain"
+              />
             </View>
           </View>
         </View>
@@ -89,9 +156,49 @@ export default function AnalysisDetailScreen({ navigation }: Props) {
         {/* Spine Curvature */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>背骨の湾曲分析</Text>
-          <View style={styles.graphPlaceholder}>
-            <MaterialIcons name="show-chart" size={60} color="#A0AEC0" />
-            <Text style={styles.graphText}>グラフ表示エリア</Text>
+          <View style={styles.graphContainer}>
+            {/* @ts-expect-error - react-native-svg types incompatible with React 19 */}
+            <Svg width={GRAPH_WIDTH} height={GRAPH_HEIGHT}>
+              {/* ベースライン（赤い破線） */}
+              {/* @ts-expect-error - react-native-svg types incompatible with React 19 */}
+              <Line
+                x1={GRAPH_PADDING}
+                y1={GRAPH_PADDING + GRAPH_INNER_HEIGHT}
+                x2={GRAPH_PADDING + GRAPH_INNER_WIDTH}
+                y2={GRAPH_PADDING + GRAPH_INNER_HEIGHT}
+                stroke="#E53E3E"
+                strokeWidth="1"
+                strokeDasharray="4 4"
+              />
+              {/* 青い実線 */}
+              {/* @ts-expect-error - react-native-svg types incompatible with React 19 */}
+              <Path
+                d={createPath(blueLineData)}
+                fill="none"
+                stroke="#3498DB"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              {/* 赤い破線 */}
+              {/* @ts-expect-error - react-native-svg types incompatible with React 19 */}
+              <Path
+                d={createPath(redLineData)}
+                fill="none"
+                stroke="#E53E3E"
+                strokeWidth="2"
+                strokeDasharray="6 4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </Svg>
+            {/* X軸ラベル（通常のTextコンポーネントで表示） */}
+            <View style={styles.graphLabels}>
+              <Text style={styles.graphLabel}>C1</Text>
+              <Text style={styles.graphLabel}>T1</Text>
+              <Text style={styles.graphLabel}>L1</Text>
+              <Text style={styles.graphLabel}>S1</Text>
+            </View>
           </View>
         </View>
 
@@ -235,6 +342,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#E2E8F0",
+    overflow: "hidden",
+  },
+  postureImage: {
+    width: "100%",
+    height: "100%",
   },
   card: {
     marginHorizontal: 20,
@@ -290,18 +402,26 @@ const styles = StyleSheet.create({
   barYellow: {
     backgroundColor: "#F6AD55",
   },
-  graphPlaceholder: {
-    height: 200,
-    backgroundColor: "#F7FAFC",
+  graphContainer: {
+    height: GRAPH_HEIGHT + 30,
+    backgroundColor: "#FFFFFF",
     borderRadius: 8,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: 20,
   },
-  graphText: {
-    marginTop: 8,
-    fontSize: 14,
-    fontFamily: "Manrope_400Regular",
-    color: "#A0AEC0",
+  graphLabels: {
+    flexDirection: "row",
+    width: GRAPH_WIDTH - GRAPH_PADDING * 2,
+    justifyContent: "space-between",
+    paddingHorizontal: GRAPH_PADDING,
+    marginTop: 4,
+  },
+  graphLabel: {
+    fontSize: 12,
+    fontFamily: "Manrope_500Medium",
+    color: "#2D3748",
+    textAlign: "center",
   },
   detailItem: {
     flexDirection: "row",

@@ -15,6 +15,8 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../types/navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { gql } from "@apollo/client";
+// import { useRegisterMutation } from "../../graphql/auth.graphql";
 // TODO: Development Buildで有効化
 // import * as AppleAuthentication from "expo-apple-authentication";
 // import * as Google from "expo-auth-session/providers/google";
@@ -29,6 +31,7 @@ export default function SignUpScreen({ navigation }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  // const [registerMutation, { loading: signingUp }] = useRegisterMutation();
   // TODO: Development Buildで有効化
   // const [isAppleSignInAvailable, setIsAppleSignInAvailable] = useState(false);
 
@@ -57,20 +60,25 @@ export default function SignUpScreen({ navigation }: Props) {
   // };
 
   const handleSignUp = async () => {
-    // TODO: 実際のサインアップ処理
     if (!name || !email || !password) {
       Alert.alert("入力エラー", "すべての項目を入力してください。");
       return;
     }
-    console.log("Sign up:", { name, email, password });
-
-    // オンボーディング完了フラグを保存
-    await AsyncStorage.setItem("@onboarding_completed", "true");
-
-    // TODO: ここでバックエンドにデータを送信し、ログイン状態にする
-
-    // 完了画面に遷移
-    navigation.navigate("Completion");
+    try {
+      // const res = await registerMutation({
+      //   variables: { name, email, password },
+      // });
+      // const data = res.data?.register;
+      // if (!data?.success) {
+      //   Alert.alert("エラー", data?.message || "登録に失敗しました");
+      //   return;
+      // }
+      // トークン保存などが必要ならここで
+      await AsyncStorage.setItem("@onboarding_completed", "true");
+      navigation.navigate("Completion");
+    } catch (e: any) {
+      Alert.alert("エラー", e?.message || "通信に失敗しました");
+    }
   };
 
   // TODO: Development Buildで有効化
@@ -195,8 +203,13 @@ export default function SignUpScreen({ navigation }: Props) {
           </View>
 
           {/* Sign Up Button */}
-          <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
+          <TouchableOpacity
+            style={styles.signUpButton}
+            onPress={handleSignUp}
+            // disabled={signingUp}
+          >
             <Text style={styles.signUpButtonText}>
+              {/* {signingUp ? "送信中..." : "無料トライアルを開始する"} */}
               無料トライアルを開始する
             </Text>
           </TouchableOpacity>

@@ -154,10 +154,10 @@ const styles = StyleSheet.create({
     color: "#718096",
     textAlign: "center",
     lineHeight: 24,
-    marginBottom: 32,
+    marginBottom: 12,
   },
   featuresList: {
-    marginBottom: 32,
+    marginBottom: 12,
   },
   featureItem: {
     flexDirection: "row",
