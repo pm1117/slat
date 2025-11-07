@@ -18,7 +18,7 @@ type Props = NativeStackScreenProps<HomeStackParamList, "HomeMain">;
 export default function HomeScreen({ navigation }: Props) {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
-  const [userName] = useState("Emma"); // TODO: 実際のユーザー名を取得
+  const [userName] = useState("みか"); // TODO: 実際のユーザー名を取得
 
   useEffect(() => {
     checkFirstTimeHome();
@@ -82,7 +82,7 @@ export default function HomeScreen({ navigation }: Props) {
             <View style={styles.avatar}>
               <MaterialIcons name="person" size={24} color="#FFFFFF" />
             </View>
-            <Text style={styles.welcomeText}>Welcome, {userName}!</Text>
+            <Text style={styles.welcomeText}>{userName}さん、こんにちは！</Text>
           </View>
           <TouchableOpacity style={styles.notificationButton}>
             <MaterialIcons
@@ -105,17 +105,17 @@ export default function HomeScreen({ navigation }: Props) {
             </View>
           </View>
           <View style={styles.cardContent}>
-            <Text style={styles.cardTitle}>Latest Posture Check</Text>
+            <Text style={styles.cardTitle}>最新の姿勢チェック</Text>
             <View style={styles.cardDetails}>
               <View style={styles.detailsLeft}>
-                <Text style={styles.scoreText}>Score: 85%</Text>
-                <Text style={styles.dateText}>Analyzed: Today</Text>
+                <Text style={styles.scoreText}>スコア: 85%</Text>
+                <Text style={styles.dateText}>分析日: 今日</Text>
               </View>
               <TouchableOpacity
                 style={styles.detailsButton}
                 onPress={handleViewDetails}
               >
-                <Text style={styles.detailsButtonText}>View Full Details</Text>
+                <Text style={styles.detailsButtonText}>詳細を見る</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -123,14 +123,14 @@ export default function HomeScreen({ navigation }: Props) {
 
         {/* Your Plan Section */}
         <View style={styles.planSection}>
-          <Text style={styles.planTitle}>Your Plan</Text>
+          <Text style={styles.planTitle}>あなたのプラン</Text>
           <View style={styles.planContent}>
             <View style={styles.planDetails}>
-              <Text style={styles.planName}>Premium Monthly</Text>
-              <Text style={styles.planDate}>Next payment on 24 July, 2024</Text>
+              <Text style={styles.planName}>プレミアム月額</Text>
+              <Text style={styles.planDate}>次回お支払い: 2025年11月25日</Text>
             </View>
             <TouchableOpacity>
-              <Text style={styles.manageLink}>Manage Subscription</Text>
+              <Text style={styles.manageLink}>サブスクリプション管理</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.planDivider} />

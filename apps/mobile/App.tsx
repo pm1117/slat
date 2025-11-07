@@ -12,6 +12,9 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomSplashScreen from "./src/screens/SplashScreen";
+import { ApolloProvider } from "@apollo/client";
+import { apolloClient } from "./src/lib/apollo";
 import IntroScreen from "./src/screens/onboarding/IntroScreen";
 import PersonalizeScreen from "./src/screens/onboarding/PersonalizeScreen";
 import PhotoConfirmScreen from "./src/screens/onboarding/PhotoConfirmScreen";
@@ -40,6 +43,7 @@ const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 
 export default function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
+  const [showCustomSplash, setShowCustomSplash] = useState(true);
   const [fontsLoaded] = useFonts({
     Manrope_400Regular,
     Manrope_500Medium,
@@ -53,6 +57,7 @@ export default function App() {
 
   useEffect(() => {
     if (fontsLoaded && isFirstLaunch !== null) {
+      // Expoのスプラッシュスクリーンを非表示にして、カスタムスプラッシュを表示
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, isFirstLaunch]);
@@ -70,8 +75,18 @@ export default function App() {
     }
   };
 
+  const handleSplashFinish = () => {
+    setShowCustomSplash(false);
+  };
+
+  // フォント読み込み中またはAsyncStorage確認中
   if (!fontsLoaded || isFirstLaunch === null) {
     return null;
+  }
+
+  // カスタムスプラッシュスクリーンを表示
+  if (showCustomSplash) {
+    return <CustomSplashScreen onFinish={handleSplashFinish} />;
   }
 
   const OnboardingNavigator = () => (
@@ -110,17 +125,21 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{ headerShown: false }}
-          initialRouteName={isFirstLaunch ? "Onboarding" : "Auth"}
-        >
-          <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
-          <Stack.Screen name="Auth" component={AuthNavigator} />
-          <Stack.Screen name="Main" component={MainNavigator} />
-        </Stack.Navigator>
-        <StatusBar style="auto" />
-      </NavigationContainer>
+      <ApolloProvider client={apolloClient}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+            // TODO: DBのデータを取得して、初回起動かどうかを判断する
+            // initialRouteName={isFirstLaunch ? "Onboarding" : "Auth"}
+            initialRouteName="Onboarding"
+          >
+            <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
+            <Stack.Screen name="Auth" component={AuthNavigator} />
+            <Stack.Screen name="Main" component={MainNavigator} />
+          </Stack.Navigator>
+          <StatusBar style="auto" />
+        </NavigationContainer>
+      </ApolloProvider>
     </SafeAreaProvider>
   );
 }

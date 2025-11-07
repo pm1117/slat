@@ -25,7 +25,9 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException('このメールアドレスは既に登録されています');
+      throw new ConflictException(
+        'このメールアドレスは既に登録されています。別のメールアドレスを使用してください。',
+      );
     }
 
     // パスワードをハッシュ化

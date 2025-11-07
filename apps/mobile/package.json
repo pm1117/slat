@@ -4,6 +4,8 @@
   "main": "index.ts",
   "scripts": {
     "dev": "expo start",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen:watch": "graphql-codegen --config codegen.ts --watch",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
@@ -13,6 +15,7 @@
     "lint": "echo 'Linting not configured yet'"
   },
   "dependencies": {
+    "@apollo/client": "^3.14.0",
     "@expo-google-fonts/manrope": "^0.4.2",
     "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "^2.2.0",
@@ -29,12 +32,19 @@
     "expo-splash-screen": "^31.0.10",
     "expo-status-bar": "~2.2.3",
     "expo-web-browser": "~14.2.0",
+    "graphql": "^16.11.0",
     "react": "19.0.0",
     "react-native": "0.79.5",
+    "react-native-chart-kit": "^6.12.0",
     "react-native-safe-area-context": "5.4.0",
-    "react-native-screens": "4.11.1"
+    "react-native-screens": "4.11.1",
+    "react-native-svg": "^15.14.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/typescript": "^4.1.6",
+    "@graphql-codegen/typescript-operations": "^4.6.1",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.3",
     "@types/react": "~19.1.0",
     "typescript": "~5.9.2"
   },
